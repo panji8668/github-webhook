@@ -3,7 +3,6 @@ const app = express()
 const https = require('https')
 const fs = require('fs')
 var cors = require('cors')
-const IRSXRunner = require('./irsxrunner')
 
 app.use(cors())
 app.use(express.json());
