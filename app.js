@@ -19,7 +19,7 @@ app.post('/webhook',(req,res)=>{
     var reponame = req.body.repository.name;
     var repofullname = req.body.repository.full_name;
 
-    var child = cp.spawn('./builder.sh',[reponame,repofullname])
+    var child = cp.spawn('./runner.sh',[reponame,repofullname])
 
     res.json({success:true});
 
