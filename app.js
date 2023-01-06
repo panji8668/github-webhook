@@ -5,29 +5,38 @@ const fs = require('fs')
 var cors = require('cors')
 
 app.use(cors())
-app.use(express.json());
+app.use(express.json())
 
-var cp = require('child_process');
+var cp = require('child_process')
 
-app.get('/webhook',(req,res)=>{
-        res.json({success:true,get:true});
-});
+app.get('/webhook', (req, res) => {
+  res.json({ success: true, get: true })
+})
 
-app.post('/webhook',(req,res)=>{
+app.post('/webhook', (req, res) => {
+  // console.log(req.body);
+  var reponame = req.body.repository.name
+  var repofullname = req.body.repository.full_name
 
-   // console.log(req.body);
-    var reponame = req.body.repository.name;
-    var repofullname = req.body.repository.full_name;
+  var child = cp.spawn('./runner.sh', [reponame, repofullname])
+  child.stdout.on('data', function (data) {
+    var dt = String(data).trim()
+    if (dt != '') {
+      console.log('Log:' + dt)
+    }
+  })
+  child.stderr.on('data', function (data) {
+    var dt = String(data).trim()
+    if (dt != '') {
+      console.log('Error:' + dt)
+    }
+  })
+  res.json({ success: true })
+})
 
-    var child = cp.spawn('./runner.sh',[reponame,repofullname])
+var privateKey = fs.readFileSync('./ssl/irscloud_id.key', 'utf8')
+var certificate = fs.readFileSync('./ssl/irscloud_id.crt', 'utf8')
+var credentials = { key: privateKey, cert: certificate }
 
-    res.json({success:true});
-
-});
-
-var privateKey  = fs.readFileSync('./ssl/irscloud_id.key', 'utf8');
-var certificate = fs.readFileSync('./ssl/irscloud_id.crt', 'utf8');
-var credentials = {key: privateKey, cert: certificate};
-
-var httpsServer = https.createServer(credentials, app);
-httpsServer.listen(9090);
+var httpsServer = https.createServer(credentials, app)
+httpsServer.listen(9090)
