@@ -15,7 +15,10 @@ echo "GitUser:"$GITUSER
 echo "Token:"$GITTOKEN
 
 #remove existing dir
+echo "remove existing directory"
 rm -rf $REPOSITORYNAME
+
+echo "Cloding git clone https://$GITUSER:$GITTOKEN@github.com/$REPOSITORYFULLNAME.git"
 
 git clone https://$GITUSER:$GITTOKEN@github.com/$REPOSITORYFULLNAME.git
 
