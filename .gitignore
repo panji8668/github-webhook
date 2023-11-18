@@ -2,3 +2,4 @@
 /ssl
 *.json
 .env
+.vscode-upload.json
