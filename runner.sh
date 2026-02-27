@@ -1,12 +1,13 @@
-
 #! /bin/bash
 
 
 REPOSITORYNAME=$1
 REPOSITORYFULLNAME=$2
+BRANCH=$3
 WORKDIR="/root/githubrunner"
 
 echo "RepositoryName:"$REPOSITORYFULLNAME
+echo "Branch:"$BRANCH
 
 cd $WORKDIR
 pwd
@@ -30,7 +31,24 @@ cd $REPOSITORYNAME
 # run build.sh
 
 echo "================ Runing Build Script ========="
-#./mvnw clean install -Dmaven.test.skip
-chmod +x build.sh && ./build.sh
+
+case "$BRANCH" in
+  "staging")
+    echo "Running build-staging.sh"
+    chmod +x build-staging.sh && ./build-staging.sh
+    ;;
+  "main")
+    echo "Running build.sh"
+    chmod +x build.sh && ./build.sh
+    ;;
+  "test")
+    echo "Running build-test.sh"
+    chmod +x build-test.sh && ./build-test.sh
+    ;;
+  *)
+    echo "Running build-$BRANCH.sh"
+    chmod +x build-$BRANCH.sh && ./build-$BRANCH.sh
+    ;;
+esac
 
 echo "DONE"

@@ -1,7 +1,5 @@
 const express = require('express')
 const app = express()
-const https = require('https')
-const fs = require('fs')
 var cors = require('cors')
 
 app.use(cors())
@@ -17,8 +15,10 @@ app.post('/webhook', (req, res) => {
   // console.log(req.body);
   var reponame = req.body.repository.name
   var repofullname = req.body.repository.full_name
+  const branch = req.body.ref.split('/').slice(-1)[0]
+  console.log('Received webhook for repository: ' + reponame + ' on branch: ' + branch)
 
-  var child = cp.spawn('./runner.sh', [reponame, repofullname])
+  var child = cp.spawn('./runner.sh', [reponame, repofullname, branch])
   child.stdout.on('data', function (data) {
     var dt = String(data).trim()
     if (dt != '') {
@@ -34,9 +34,6 @@ app.post('/webhook', (req, res) => {
   res.json({ success: true })
 })
 
-var privateKey = fs.readFileSync('./ssl/irscloud_id.key', 'utf8')
-var certificate = fs.readFileSync('./ssl/irscloud_id.crt', 'utf8')
-var credentials = { key: privateKey, cert: certificate }
-
-var httpsServer = https.createServer(credentials, app)
-httpsServer.listen(9090)
+app.listen(3000, () => {
+  console.log('Server is running on port 3000')
+})
