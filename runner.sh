@@ -21,7 +21,8 @@ rm -rf $REPOSITORYNAME
 
 echo "Cloding git clone https://$GITUSER:$GITTOKEN@github.com/$REPOSITORYFULLNAME.git"
 
-git clone https://$GITUSER:$GITTOKEN@github.com/$REPOSITORYFULLNAME.git
+#git clone https://$GITUSER:$GITTOKEN@github.com/$REPOSITORYFULLNAME.git
+git clone https://github.com/$REPOSITORYFULLNAME.git
 
 cd $REPOSITORYNAME
 #chmod +x mvnw
