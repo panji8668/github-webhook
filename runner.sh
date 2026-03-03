@@ -1,6 +1,12 @@
 #! /bin/bash
 
 
+
+# Load environment variables from .env file if exists
+if [ -f .env ]; then
+  export $(grep -v '^#' .env | xargs)
+fi
+
 REPOSITORYNAME=$1
 REPOSITORYFULLNAME=$2
 BRANCH=$3
@@ -21,8 +27,8 @@ rm -rf $REPOSITORYNAME
 
 echo "Cloding git clone https://$GITUSER:$GITTOKEN@github.com/$REPOSITORYFULLNAME.git"
 
-#git clone https://$GITUSER:$GITTOKEN@github.com/$REPOSITORYFULLNAME.git
-git clone https://github.com/$REPOSITORYFULLNAME.git
+git clone https://$GITUSER:$GITTOKEN@github.com/$REPOSITORYFULLNAME.git
+#git clone https://github.com/$REPOSITORYFULLNAME.git
 
 cd $REPOSITORYNAME
 #chmod +x mvnw
