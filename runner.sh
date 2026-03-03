@@ -25,7 +25,7 @@ echo "Token:"$GITTOKEN
 echo "remove existing directory"
 rm -rf $REPOSITORYNAME
 
-echo "Cloning git clone https://$GITUSER:$GITTOKEN@github.com/$REPOSITORYFULLNAME.git"
+echo "Cloning branch $BRANCH https://$GITUSER:$GITTOKEN@github.com/$REPOSITORYFULLNAME.git"
 #git clone https://$GITUSER:$GITTOKEN@github.com/$REPOSITORYFULLNAME.git
 
 # Jika branch bukan main, tambahkan --branch $BRANCH
