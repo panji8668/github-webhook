@@ -25,9 +25,15 @@ echo "Token:"$GITTOKEN
 echo "remove existing directory"
 rm -rf $REPOSITORYNAME
 
-echo "Cloding git clone https://$GITUSER:$GITTOKEN@github.com/$REPOSITORYFULLNAME.git"
+echo "Cloning git clone https://$GITUSER:$GITTOKEN@github.com/$REPOSITORYFULLNAME.git"
+#git clone https://$GITUSER:$GITTOKEN@github.com/$REPOSITORYFULLNAME.git
 
-git clone https://$GITUSER:$GITTOKEN@github.com/$REPOSITORYFULLNAME.git
+# Jika branch bukan main, tambahkan --branch $BRANCH
+if [ "$BRANCH" != "main" ]; then
+  git clone --branch "$BRANCH" https://$GITUSER:$GITTOKEN@github.com/$REPOSITORYFULLNAME.git
+else
+  git clone https://$GITUSER:$GITTOKEN@github.com/$REPOSITORYFULLNAME.git
+fi
 #git clone https://github.com/$REPOSITORYFULLNAME.git
 
 cd $REPOSITORYNAME
@@ -37,7 +43,7 @@ cd $REPOSITORYNAME
 
 # run build.sh
 
-echo "================ Runing Build Script ========="
+echo "================ Running Build Script ========="
 
 case "$BRANCH" in
   "staging")
